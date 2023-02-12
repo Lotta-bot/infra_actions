@@ -73,8 +73,8 @@ jobs:
         username: ${{ vars.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_SSH }}
         script: |
-          # Might be not needed
-          # docker login --username ${{ vars.DOCKERHUB_LOGIN }} --password ${{ secrets.DOCKERHUB_PASS }}
+          # Login to private repo prior to pull.
+          docker login --username ${{ vars.DOCKERHUB_LOGIN }} --password ${{ secrets.DOCKERHUB_PASS }}
           # Выполняет pull образа с DockerHub
           docker pull ${{ vars.DOCKERHUB_LOGIN }}/ys_python
           #остановка всех контейнеров
