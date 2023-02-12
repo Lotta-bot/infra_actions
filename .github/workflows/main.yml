@@ -54,7 +54,7 @@ jobs:
           # Запуск скрипта авторизации на Docker Hub
           uses: docker/login-action@v1 
           with:
-            username: ${{ env.DOCKERHUB_LOGIN }}
+            username: $DOCKERHUB_LOGIN
             password: ${{ secrets.DOCKERHUB_PASS }}
         - name: Push to Docker Hub
           # Пуш образа в Docker Hub 
@@ -69,13 +69,13 @@ jobs:
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ env.DEPLOY_IP }}
-        username: ${{ env.DEPLOY_USER }}
+        host: $DEPLOY_IP
+        username: $DEPLOY_USER
         key: ${{ secrets.DEPLOY_SSH }}
         passphrase: ${{ secrets.PASSPHRASE }} # Если ваш ssh-ключ защищён фразой-паролем
         script: |
           # Might be not needed
-          # docker login --username ${{ env.DOCKERHUB_LOGIN }} --password ${{ secrets.DOCKERHUB_PASS }}
+          # docker login --username $DOCKERHUB_LOGIN --password ${{ secrets.DOCKERHUB_PASS }}
           # Выполняет pull образа с DockerHub
           docker pull $DOCKERHUB_LOGIN/ys_python
           #остановка всех контейнеров
@@ -88,6 +88,6 @@ jobs:
     - name: send message
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ env.TELEGRAM_TO }}
+        to: $TELEGRAM_TO
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: ${{ github.workflow }} успешно выполнен! 
